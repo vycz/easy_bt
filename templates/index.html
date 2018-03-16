@@ -1,0 +1,70 @@
+{% extends "header.html" %}
+{% block css %}
+    img {
+    width: 100%;
+    }
+    .info {
+    z-index:1;
+    top: 200px;
+    position: absolute;
+    width: 100%;
+    text-align: center
+    }
+{% endblock %}
+{% block content %}
+    <div style="position: relative;">
+        <div class="layui-carousel " id="test1" style="position: absolute;z-index:0">
+            <div carousel-item>
+                <div><img lay-src="{{ url_for('static',filename='images/carousel/1.jpg') }}"></div>
+                <div><img lay-src="{{ url_for('static',filename='images/carousel/2.jpg') }}"></div>
+                <div><img lay-src="{{ url_for('static',filename='images/carousel/3.jpg') }}"></div>
+                <div><img lay-src="{{ url_for('static',filename='images/carousel/4.jpg') }}"></div>
+            </div>
+
+        </div>
+        <div class="info">
+            <div style="margin-bottom: 60px">
+                <span style="font-size: 70px">种子文件在线清洗</span>
+            </div>
+            <button class="layui-btn layui-btn-lg layui-btn-radius layui-btn-normal" id="upload" name="file">
+                <i class="layui-icon">&#xe67c;</i>上传文件
+            </button>
+        </div>
+    </div>
+
+{% endblock %}
+{% block layuijs %}
+    var carousel = layui.carousel;
+    //建造实例
+    carousel.render({
+    elem: '#test1'
+    ,width: '100%' //设置容器宽度
+    ,height: '600px'
+    ,arrow: 'hover' //始终显示箭头
+    ,interval: 3000
+    //,anim: 'updown' //切换动画方式
+    });
+    layui.use('flow', function(){
+    var flow = layui.flow;
+    //当你执行这样一个方法时，即对页面中的全部带有lay-src的img元素开启了懒加载（当然你也可以指定相关img）
+    flow.lazyimg();
+    });
+    var upload = layui.upload;
+    var layer = layui.layer;
+
+
+
+    //执行实例
+    var uploadInst = upload.render({
+    elem: '#upload' //绑定元素
+    ,url: '/upload' //上传接口
+    ,accept: 'file'
+    ,exts: 'torrent'
+    ,done: function(res){
+    layer.msg(res);
+    }
+    ,error: function(){
+    //请求异常回调
+    }
+    });
+{% endblock %}
