@@ -25,7 +25,7 @@ def upload():
             f.save(dir)
             magnet = bt2magnet(dir)
         return jsonify(result=magnet, status=1)
-    return jsonify(result="", status=10)
+    return jsonify(result="转换失败", status=0)
 
 
 if __name__ == '__main__':
